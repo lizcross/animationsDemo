@@ -1,0 +1,75 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/mainView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                tools:context=".MainActivity">
+
+    <TextView
+        android:text="Animations!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/slideMeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Slide Me!"/>
+
+    <Button
+        android:id="@+id/slideMeInterpolatorButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Slide Me?"/>
+
+    <Spinner
+        android:id="@+id/slideMeInterpolationOptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/clickMeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Spin"/>
+
+        <Button
+            android:id="@+id/spinReverseButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Spin with Reverse"/>
+
+        <Button
+            android:id="@+id/spinRotationPointButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Spin Rotation Point"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/growingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Grow Me!"/>
+
+    <Button
+        android:id="@+id/movingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Move Me!"/>
+
+</LinearLayout>

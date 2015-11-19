@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="interpolations">
+        <item>Accelerate Decelerate (Default)</item>
+        <item>Anticipate Overshoot</item>
+        <item>Bounce</item>
+        <item>Linear</item>
+        <item>Fast Out Slow In</item>
+    </string-array>
+</resources>
