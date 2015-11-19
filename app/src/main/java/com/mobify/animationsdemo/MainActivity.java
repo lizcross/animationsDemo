@@ -22,7 +22,6 @@ import android.widget.Spinner;
 
 public class MainActivity extends Activity {
 
-    private float slidingStartLocationX;
     private int spinDirection = 1;
     private int spinDirectionRotationPoint = 1;
 
@@ -41,11 +40,11 @@ public class MainActivity extends Activity {
             startLocation = xLocation;
             endLocation = xLocation + width - (buttonWidth * 1.5f);
         } else {
-            startLocation = xLocation - (buttonWidth * 0.5f);
-            endLocation = slidingStartLocationX;
+            startLocation = xLocation;
+            endLocation = xLocation - (width - (buttonWidth * 1.5f));
         }
 
-        ObjectAnimator slideAnimator = ObjectAnimator.ofFloat(v, View.TRANSLATION_X, startLocation, endLocation);
+        ObjectAnimator slideAnimator = ObjectAnimator.ofFloat(v, View.X, startLocation, endLocation);
         if (timeInterpolator != null) {
             slideAnimator.setInterpolator(timeInterpolator);
         }
@@ -59,7 +58,6 @@ public class MainActivity extends Activity {
 
         final ViewGroup mainView = (ViewGroup) findViewById(R.id.mainView);
         final Button slideMeButton = (Button) findViewById(R.id.slideMeButton);
-        slidingStartLocationX = slideMeButton.getX();
 
         final Button slideMeOptionsButton = (Button) findViewById(R.id.slideMeInterpolatorButton);
         final Spinner slideMeInterpolationOptions = (Spinner) findViewById(R.id.slideMeInterpolationOptions);
