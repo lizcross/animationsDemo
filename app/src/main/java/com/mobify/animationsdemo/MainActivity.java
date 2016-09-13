@@ -149,30 +149,17 @@ public class MainActivity extends Activity {
         growingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                growingButton.animate().scaleX(2.0f).scaleY(2.0f).setListener(new Animator.AnimatorListener() {
+                growingButton.animate().scaleX(2.0f).scaleY(2.0f).withEndAction(new Runnable() {
                     @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        growingButton.animate().scaleX(1.0f).scaleY(1.0f).setListener(null);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
+                    public void run() {
+                        growingButton.animate().scaleX(1.0f).scaleY(1.0f);
                     }
                 });
             }
         });
 
+        // To use ViewPropertyAnimator here could chain listeners or chain calls to withEndAction
+        // Seems much more complex than using ObjectAnimators
         movingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
