@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+      @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+      @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+      body { font-family: 'Droid Serif'; }
+      h1, h2, h3 {
+        font-family: 'Yanone Kaffeesatz';
+        font-weight: normal;
+      }
+      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+    </style>
+  </head>
+  <body>
+    <textarea id="source">
+
+class: center, middle
+
+# Exploring Object Animators
+## https://github.com/lizcross/animationsDemo
+
+---
+
+class: center, middle
+
+![alt text](https://lh4.googleusercontent.com/-alRF2kfXilM/AAAAAAAAAAI/AAAAAAAAz5I/dZZpm1WTwE4/photo.jpg "Chet Haas")
+
+Chet Haase
+
+---
+
+# Animating a single property of the view
+
+```java
+// Moving button across the screen
+
+ObjectAnimator slideAnimator =
+    ObjectAnimator.ofFloat(view, View.X, startLocation, endLocation);
+
+slideAnimator.setInterpolator(timeInterpolator);
+slideAnimator.start();
+```
+---
+# Time Interpolators
+
+- `AnticipateOvershootInterpolator`
+
+- `BounceInterpolator`
+
+- `LinearInterpolator`
+
+- `FastOutSlowInInterpolator`
+---
+
+# Animating a rotational property
+
+```java
+// Button rotates around a full circle in specified direction
+
+// spinDirection can be 1 or -1
+int spinDirection = 1;
+
+ObjectAnimator objectAnimator =
+    ObjectAnimator.ofFloat(view, View.ROTATION_X, 360 * spinDirection);
+
+objectAnimator.start();
+```
+
+---
+
+# Animating a property with repetition
+
+```java
+// Button rotates in a full circle and then rotates back to original position
+
+ObjectAnimator objectAnimator =
+    ObjectAnimator.ofFloat(view, View.ROTATION_X, 360);
+
+objectAnimator.setRepeatCount(1);
+
+// reverse or repeat
+objectAnimator.setRepeatMode(ObjectAnimator.REVERSE);
+
+objectAnimator.start();
+```
+
+---
+
+# Changing the Point of Rotation for a View
+
+```java
+// Button rotates around its top y-axis
+
+float pivotLocation =
+    spinRotationPointButton.getPivotY() +
+    (spinRotationPointButton.getHeight()/2.0f)
+
+spinRotationPointButton.setPivotY(pivotLocation);
+
+ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(
+        spinRotationPointButton,
+        View.ROTATION_X,
+        360 * spinDirection);
+
+objectAnimator.start();
+```
+
+---
+
+# Animating Multiple Properties in Unison
+
+```java
+// Button grows and shrinks
+
+PropertyValuesHolder pvhScaleX =
+    PropertyValuesHolder.ofFloat(View.SCALE_X, 2);
+
+PropertyValuesHolder pvhScaleY =
+    PropertyValuesHolder.ofFloat(View.SCALE_Y, 2);
+
+ObjectAnimator scalingAnimator =
+    ObjectAnimator.ofPropertyValuesHolder(growingButton, pvhScaleX, pvhScaleY);
+
+scalingAnimator.setRepeatCount(1);
+scalingAnimator.setRepeatMode(ObjectAnimator.REVERSE);
+scalingAnimator.start();
+```
+
+---
+
+# Coordinating with `AnimatorSet`
+
+```java
+// Move button around the screen
+
+ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(
+    view, View.Y, originalY, mainView.getBottom() - v.getHeight() * 1.5f);
+
+ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(
+    view, View.X, originalX, mainView.getRight() - v.getWidth() * 1.5f);
+
+ObjectAnimator objectAnimator3 = ...
+ObjectAnimator objectAnimator4 = ...
+ObjectAnimator objectAnimator5 = ...
+
+AnimatorSet animatorSet = new AnimatorSet();
+
+animatorSet.playSequentially(
+    objectAnimator1,
+    objectAnimator2,
+    objectAnimator3,
+    objectAnimator4,
+    objectAnimator5);
+
+animatorSet.start();
+```
+
+---
+
+# `ViewPropertyAnimator`
+
+- See branch called `view-property-animator`
+- Code is more simple in some cases but more complex in others
+
+
+
+    </textarea>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
