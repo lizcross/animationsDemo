@@ -1,5 +1,6 @@
 package com.mobify.animationsdemo;
 
+import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.LinearInterpolator;
@@ -25,7 +27,7 @@ public class MainActivity extends Activity {
     private int spinDirection = 1;
     private int spinDirectionRotationPoint = 1;
 
-    private ObjectAnimator createSlideMeAnimator(View v, TimeInterpolator timeInterpolator) {
+    private void performSlide(View v, TimeInterpolator timeInterpolator) {
         float xLocation = v.getX();
 
         float buttonWidth = v.getWidth();
@@ -34,21 +36,14 @@ public class MainActivity extends Activity {
         int width = displaymetrics.widthPixels;
         float halfWidth = width/2.0f;
 
-        float startLocation;
         float endLocation;
         if (xLocation < halfWidth) {
-            startLocation = xLocation;
             endLocation = xLocation + width - (buttonWidth * 1.5f);
         } else {
-            startLocation = xLocation;
             endLocation = xLocation - (width - (buttonWidth * 1.5f));
         }
 
-        ObjectAnimator slideAnimator = ObjectAnimator.ofFloat(v, View.X, startLocation, endLocation);
-        if (timeInterpolator != null) {
-            slideAnimator.setInterpolator(timeInterpolator);
-        }
-        return slideAnimator;
+        v.animate().x(endLocation).setInterpolator(timeInterpolator);
     }
 
     @Override
@@ -77,8 +72,7 @@ public class MainActivity extends Activity {
         slideMeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ObjectAnimator slideAnimator = createSlideMeAnimator(v, null);
-                slideAnimator.start();
+                performSlide(v, null);
             }
         });
 
@@ -104,8 +98,7 @@ public class MainActivity extends Activity {
                         timeInterpolator = new FastOutSlowInInterpolator();
                         break;
                 }
-                ObjectAnimator slideAnimator = createSlideMeAnimator(v, timeInterpolator);
-                slideAnimator.start();
+                performSlide(v, timeInterpolator);
             }
         });
 
@@ -113,8 +106,7 @@ public class MainActivity extends Activity {
         clickMeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(v, View.ROTATION_X, 360 * spinDirection);
-                objectAnimator.start();
+                v.animate().rotationX(360 * spinDirection);
                 spinDirection = spinDirection * -1;
             }
         });
@@ -122,32 +114,62 @@ public class MainActivity extends Activity {
         spinReverseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(v, View.ROTATION_X, 360);
-                objectAnimator.setRepeatCount(1);
-                objectAnimator.setRepeatMode(ObjectAnimator.REVERSE);
-                objectAnimator.start();
+                spinReverseButton.animate().rotationX(360).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        spinReverseButton.animate().rotationX(-360).setListener(null);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
             }
         });
 
         spinRotationPointButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(v, View.ROTATION_X, 360 * spinDirectionRotationPoint);
-                objectAnimator.start();
+                v.animate().rotationX(360 * spinDirectionRotationPoint);
                 spinDirectionRotationPoint = spinDirectionRotationPoint * -1;
             }
         });
 
-        PropertyValuesHolder pvhScaleX = PropertyValuesHolder.ofFloat(View.SCALE_X, 2);
-        PropertyValuesHolder pvhScaleY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 2);
-        final ObjectAnimator scalingAnimator = ObjectAnimator.ofPropertyValuesHolder(growingButton, pvhScaleX, pvhScaleY);
-        scalingAnimator.setRepeatCount(1);
-        scalingAnimator.setRepeatMode(ObjectAnimator.REVERSE);
-
         growingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scalingAnimator.start();
+                growingButton.animate().scaleX(2.0f).scaleY(2.0f).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        growingButton.animate().scaleX(1.0f).scaleY(1.0f).setListener(null);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
             }
         });
 
